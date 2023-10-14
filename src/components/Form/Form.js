@@ -1,35 +1,23 @@
+import styles from "./form.module.css";
+
 export default function Form() {
   return (
     <form>
       <div className="mb-3">
-        <label htmlFor="exampleInputEmail1" className="form-label">
-          Email address
+        <label htmlFor="title" className="form-label">
+          Заголовок
         </label>
-        <input
-          type="email"
-          className="form-control"
-          id="exampleInputEmail1"
-          aria-describedby="emailHelp"
-        />
-        <div id="emailHelp" className="form-text">
-          We'll never share your email with anyone else.
-        </div>
+        <input type="text" className="form-control" id="title" />
       </div>
       <div className="mb-3">
-        <label htmlFor="exampleInputPassword1" className="form-label">
-          Password
+        <label htmlFor="textarea" className="form-label">
+          Заметка
         </label>
-        <input
-          type="password"
-          className="form-control"
-          id="exampleInputPassword1"
-        />
-      </div>
-      <div className="mb-3 form-check">
-        <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-        <label className="form-check-label" htmlFor="exampleCheck1">
-          Check me out
-        </label>
+        <textarea
+          className={`form-control ${styles.textarea}`}
+          aria-label="note"
+          id="textarea"
+        ></textarea>
       </div>
       <button type="submit" className="btn btn-primary">
         Submit
