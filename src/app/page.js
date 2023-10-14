@@ -1,8 +1,14 @@
+"use client"
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
 import NoteCard from "@/components/NoteCard/NoteCard";
+import { selectNotes } from "@/store/notesSlice";
 
 export default function Home() {
+  const notes = useSelector(selectNotes);
+  console.log(notes);
+
   return (
     <section className="album py-5 bg-body-tertiary">
       <div className="container">
@@ -18,12 +24,12 @@ export default function Home() {
           </svg>
           <p className={styles.addText}>Создать</p>
         </Link>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
           <NoteCard />
           <NoteCard />
           <NoteCard />
           <NoteCard />
-        </div>
+        </ul>
       </div>
     </section>
   );

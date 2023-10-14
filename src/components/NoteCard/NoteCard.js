@@ -2,7 +2,7 @@ import styles from "./notecard.module.css";
 
 export default function NoteCard() {
   return (
-    <div className="col">
+    <li className="col list-unstyled">
       <div className="card shadow-sm h-100">
         <div className="card-body d-flex flex-column">
           <h5 className="card-title flex-grow-0 flex-shrink-0">Заголовок</h5>
@@ -23,6 +23,6 @@ export default function NoteCard() {
           </div>
         </div>
       </div>
-    </div>
+    </li>
   );
 }
