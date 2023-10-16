@@ -1,8 +1,29 @@
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
+import { getNotes } from "./api/notesApi";
 import NoteCard from "@/components/NoteCard/NoteCard";
+import Form from "@/components/Form/Form";
+import { selectNotes, setNotes } from "@/store/notesSlice";
+import { fetchNotes } from "@/store/thunk";
 
 export default function Home() {
+  const notes = useSelector(selectNotes);
+  const dispatch = useDispatch();
+
+  // const getData = async () => {
+  //   const result = await getNotes();
+  //   dispatch(setNotes(result));
+  // };
+
+  useEffect(() => {
+    // getData(); 
+    dispatch(fetchNotes());
+    console.log(notes);
+  }, []);
+
   return (
     <section className="album py-5 bg-body-tertiary">
       <div className="container">
@@ -18,12 +39,16 @@ export default function Home() {
           </svg>
           <p className={styles.addText}>Создать</p>
         </Link>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <NoteCard />
-          <NoteCard />
-          <NoteCard />
-          <NoteCard />
-        </div>
+        <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
+          {notes.map((note, i) => (
+            <NoteCard
+              key={Number(note.id)}
+              text={note.text}
+              title={note.title}
+              id={i}
+            />
+          ))}
+        </ul>
       </div>
     </section>
   );
