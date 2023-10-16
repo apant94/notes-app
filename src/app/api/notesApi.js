@@ -36,12 +36,20 @@ async function postNote(note) {
 
 async function updateNote(id, text) {
   return axios
-    .patch(
-      `${BASE_URL}/notes/${id}`,
-      {text}
-    )
+    .patch(`${BASE_URL}/notes/${id}`, { text })
     .then((res) => {
       return res.data.text;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+async function deleteNote(id) {
+  return axios
+    .delete(`${BASE_URL}/notes/${id}`)
+    .then((res) => {
+      return res.data;
     })
     .catch((error) => {
       console.log(error);
