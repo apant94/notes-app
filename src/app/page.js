@@ -3,9 +3,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
-import { getNotes } from "./api/notesApi";
+// import { getNotes } from "./api/notesApi";
 import NoteCard from "@/components/NoteCard/NoteCard";
-import Form from "@/components/Form/Form";
 import { selectNotes, setNotes } from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
@@ -42,10 +41,10 @@ export default function Home() {
         <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
           {notes.map((note, i) => (
             <NoteCard
-              key={Number(note.id)}
+              key={note.id}
               text={note.text}
               title={note.title}
-              id={i}
+              id={note.id}
             />
           ))}
         </ul>
