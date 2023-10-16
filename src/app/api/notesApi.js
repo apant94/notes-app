@@ -56,4 +56,4 @@ async function deleteNote(id) {
     });
 }
 
-export { getNotes, getNoteById, postNote, updateNote };
+export { getNotes, getNoteById, postNote, updateNote, deleteNote };
