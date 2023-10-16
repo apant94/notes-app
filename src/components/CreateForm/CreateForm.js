@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import styles from "./form.module.css";
+import styles from "./createform.module.css";
 import { postNote } from "@/app/api/notesApi";
 
-export default function Form({}) {
+export default function CreateForm({}) {
   const [note, setNote] = useState("");
   const [title, setTitle] = useState("");
   const [isSent, setIsSent] = useState(false);
