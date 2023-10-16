@@ -8,11 +8,11 @@ import { selectNotes } from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
 export default function Home() {
-  const initialNotes = useSelector(selectNotes);
-  const [sortedNotes, setSortedNotes] = useState();
-  const [filteredNotes, setFilteresNotes] = useState();
-  const [descending, setDescending] = useState(false);
-  const [query, setQuery] = useState("");
+  const initialNotes = useSelector(selectNotes); // изначальные заметки
+  const [sortedNotes, setSortedNotes] = useState(); // массив отсортированных заметок
+  const [filteredNotes, setFilteresNotes] = useState(); // массив отфильтрованных заметок
+  const [descending, setDescending] = useState(false); // стейт направления сортировки
+  const [query, setQuery] = useState(""); // стейт данных поиска
   const dispatch = useDispatch();
 
   const renderedNotes = sortedNotes
