@@ -14,14 +14,9 @@ export const notesSlice = createSlice({
   name: "note",
   initialState,
   reducers: {
-    setNotes: (state, action) => {
-      const fetchedNotes = action.payload;
-      state.notes = fetchedNotes;
+    setNote: (state, action) => {
+      state.selectedNote.text = action.payload;
     },
-    // addNote: (state, action) => {
-    //   const note = action.payload;
-    //   state.notes.push(note);
-    // },
     removeNote: (state, action) => {
       const id = action.payload;
       const notes = state.notes.filter((note) => note.id !== id);
@@ -38,7 +33,6 @@ export const notesSlice = createSlice({
     });
     builder.addCase(fetchNoteById.fulfilled, (state, action) => {
       state.selectedNote = action.payload
-      // return action.payload;
     });
     builder.addCase(fetchNoteById.rejected, (state, action) => {
       console.log(action.error)
@@ -48,7 +42,7 @@ export const notesSlice = createSlice({
 });
 
 // actions
-export const { setNotes, removeNote } = notesSlice.actions;
+export const { setNote, removeNote } = notesSlice.actions;
 
 // selectors
 export const selectNotes = (state) => state.notes.notes;

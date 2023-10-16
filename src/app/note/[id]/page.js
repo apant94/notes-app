@@ -20,7 +20,7 @@ export default function NotePage() {
 
   return (
     <section className="container py-5">
-      <h2 className={styles.title}>Новая заметка</h2>
+      <h2 className={styles.title}>{note.title}</h2>
       <EditForm note={note} />
     </section>
   );
