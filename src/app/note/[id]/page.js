@@ -16,7 +16,7 @@ export default function NotePage() {
 
   useEffect(() => {
     dispatch(fetchNoteById(id));
-  }, []);
+  }, [dispatch, id]);
 
   return (
     <section className="container py-5">

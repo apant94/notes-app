@@ -3,24 +3,35 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
-// import { getNotes } from "./api/notesApi";
 import NoteCard from "@/components/NoteCard/NoteCard";
 import { selectNotes, setNotes } from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
 export default function Home() {
-  const notes = useSelector(selectNotes);
+  const initialNotes = useSelector(selectNotes);
+  const [sortedNotes, setSortedNotes] = useState();
+  const [descending, setDescending] = useState(false);
   const dispatch = useDispatch();
 
-  // const getData = async () => {
-  //   const result = await getNotes();
-  //   dispatch(setNotes(result));
-  // };
+  const onSortClick = () => {
+    const sorted = [...initialNotes].sort((a, b) =>
+      descending
+        ? a.text.toLowerCase() > b.text.toLowerCase()
+          ? 1
+          : -1
+        : a.text.toLowerCase() < b.text.toLowerCase()
+        ? 1
+        : -1
+    );
+    setDescending(!descending);
+    setSortedNotes(sorted);
+  };
+
+  const onSearchChange = () => {};
 
   useEffect(() => {
-    // getData(); 
     dispatch(fetchNotes());
-  }, []);
+  }, [dispatch]);
 
   return (
     <section className="album py-5 bg-body-tertiary">
@@ -37,8 +48,44 @@ export default function Home() {
           </svg>
           <p className={styles.addText}>Создать</p>
         </Link>
+        <div className="mb-3 d-flex gap-3">
+          <button
+            type="button"
+            className="btn btn-dark d-flex align-items-center"
+            onClick={onSortClick}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              fill="currentColor"
+              className="bi bi-arrow-down-up"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M11.5 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L11 2.707V14.5a.5.5 0 0 0 .5.5zm-7-14a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L4 13.293V1.5a.5.5 0 0 1 .5-.5z"
+              />
+            </svg>
+          </button>
+          <input
+            type="text"
+            className="form-control"
+            id="query"
+            placeholder="Поиск"
+            onChange={onSearchChange}
+          />
+        </div>
+
         <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
-          {notes.map((note, i) => (
+          {!sortedNotes ? initialNotes.map((note) => (
+            <NoteCard
+              key={note.id}
+              text={note.text}
+              title={note.title}
+              id={note.id}
+            />
+          )) : sortedNotes.map((note) => (
             <NoteCard
               key={note.id}
               text={note.text}
