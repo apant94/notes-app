@@ -1,8 +1,21 @@
 import axios from "axios";
+const BASE_URL = 'https://65293b2d55b137ddc83e6b8e.mockapi.io/api/v1/notes'
 
 async function getNotes() {
   return axios
-    .get("https://65293b2d55b137ddc83e6b8e.mockapi.io/api/v1/notes")
+    .get(`${BASE_URL}`)
+    .then((res) => {
+        return res.data;
+      }
+    )
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+async function getNoteById(id) {
+  return axios
+    .get(`${BASE_URL}/${id}`)
     .then((res) => {
         return res.data;
       }
@@ -14,7 +27,7 @@ async function getNotes() {
 
 async function postNote(note) {
   return axios
-    .post("https://65293b2d55b137ddc83e6b8e.mockapi.io/api/v1/notes", note)
+    .post(`${BASE_URL}`, note)
     .then((res) => {
         return res.data;
       }
@@ -24,4 +37,4 @@ async function postNote(note) {
     });
 }
 
-export { getNotes, postNote };
+export { getNotes, getNoteById, postNote };

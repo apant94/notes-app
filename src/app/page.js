@@ -20,7 +20,6 @@ export default function Home() {
   useEffect(() => {
     // getData(); 
     dispatch(fetchNotes());
-    console.log(notes);
   }, []);
 
   return (
