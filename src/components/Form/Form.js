@@ -25,7 +25,7 @@ export default function Form({}) {
     setIsSent(true);
     setTimeout(() => {
       setIsSent(false);
-    }, 1000);
+    }, 3000);
   };
 
   return (
@@ -66,7 +66,16 @@ export default function Form({}) {
         </button>
       </form>
 
-      {isSent && <p>Заметка отправлена</p>}
+      {isSent && (
+        <div className="toast-container position-fixed top-0 end-0 p-3">
+          <div className="toast d-block">
+            <div className="toast-header">
+              <strong className="me-auto">Ура!</strong>
+            </div>
+            <div className="toast-body">Твоя заметка создана</div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
