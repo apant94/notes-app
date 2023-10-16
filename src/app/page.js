@@ -16,7 +16,6 @@ export default function Home() {
   const [query, setQuery] = useState(""); // стейт данных поиска
   const dispatch = useDispatch();
 
-  console.log("rendered:", renderedNotes);
   const onSortClick = () => {
     const sorted = query
       ? [...initialNotes]
