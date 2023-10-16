@@ -4,7 +4,7 @@
 
 ## Ссылки:
 
-- [Сайт]()
+- [Сайт](https://notes-app-two-theta.vercel.app/)
 
 ## Функционал:
 

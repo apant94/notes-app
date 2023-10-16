@@ -2,12 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchNotes, fetchNoteById } from "./thunk";
 
 const initialState = {
-  notes: [
-    // { id: "111", title: "Заголовок", text: "Напишите свою 1-ю заметку" },
-  ],
-  selectedNote: [
-    
-  ],
+  notes: [],
+  selectedNote: [],
 };
 
 export const notesSlice = createSlice({
@@ -28,14 +24,14 @@ export const notesSlice = createSlice({
       state.notes = action.payload;
     });
     builder.addCase(fetchNotes.rejected, (state, action) => {
-      console.log(action.error)
-      state.notes= initialState.notes;
+      console.log(action.error);
+      state.notes = initialState.notes;
     });
     builder.addCase(fetchNoteById.fulfilled, (state, action) => {
-      state.selectedNote = action.payload
+      state.selectedNote = action.payload;
     });
     builder.addCase(fetchNoteById.rejected, (state, action) => {
-      console.log(action.error)
+      console.log(action.error);
       return action.error;
     });
   },
