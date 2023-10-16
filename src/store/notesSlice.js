@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchNotes, fetchNoteById } from "./thunk";
+import { fetchNotes, fetchNoteById, deleteNoteById } from "./thunk";
 
 const initialState = {
   notes: [],
@@ -12,12 +12,7 @@ export const notesSlice = createSlice({
   reducers: {
     setNote: (state, action) => {
       state.selectedNote.text = action.payload;
-    },
-    removeNote: (state, action) => {
-      const id = action.payload;
-      const notes = state.notes.filter((note) => note.id !== id);
-      state.notes = notes;
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchNotes.fulfilled, (state, action) => {
@@ -34,11 +29,20 @@ export const notesSlice = createSlice({
       console.log(action.error);
       return action.error;
     });
+    builder.addCase(deleteNoteById.fulfilled, (state, action) => {
+      const id = action.payload.id;
+      const notes = state.notes.filter((note) => note.id !== id);
+      state.notes = notes;
+    });
+    builder.addCase(deleteNoteById.rejected, (state, action) => {
+      console.log(action.error);
+      return action.error;
+    });
   },
 });
 
 // actions
-export const { setNote, removeNote } = notesSlice.actions;
+export const { setNote } = notesSlice.actions;
 
 // selectors
 export const selectNotes = (state) => state.notes.notes;

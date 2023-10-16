@@ -1,14 +1,12 @@
 import styles from "./notecard.module.css";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { deleteNote } from "@/app/api/notesApi";
-import { removeNote } from "@/store/notesSlice";
+import { deleteNoteById } from "@/store/thunk";
 
 export default function NoteCard({ id, title, text }) {
   const dispatch = useDispatch();
   const onDeleteClick = () => {
-    deleteNote(id);
-    dispatch(removeNote(id));
+    dispatch(deleteNoteById(id));
   };
 
   return (
