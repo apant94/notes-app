@@ -11,29 +11,42 @@ export default function Home() {
   const initialNotes = useSelector(selectNotes); // изначальные заметки
   const [sortedNotes, setSortedNotes] = useState(); // массив отсортированных заметок
   const [filteredNotes, setFilteresNotes] = useState(); // массив отфильтрованных заметок
+  const [renderedNotes, setRenderedNotes] = useState([]); // массив заметок для отрисовки после сортировки и фильтрации
   const [descending, setDescending] = useState(false); // стейт направления сортировки
   const [query, setQuery] = useState(""); // стейт данных поиска
   const dispatch = useDispatch();
 
-  const renderedNotes = sortedNotes
-    ? filteredNotes
-      ? filteredNotes
-      : sortedNotes
-    : filteredNotes
-    ? filteredNotes
-    : initialNotes;
+  console.log("rendered:", renderedNotes);
   const onSortClick = () => {
-    const sorted = [...initialNotes].sort((a, b) =>
-      descending
-        ? a.text.toLowerCase() < b.text.toLowerCase()
-          ? 1
-          : -1
-        : a.text.toLowerCase() > b.text.toLowerCase()
-        ? 1
-        : -1
-    );
+    const sorted = query
+      ? [...initialNotes]
+          .filter((note) => {
+            return (
+              note.title.replace(/\s/g, "").toLowerCase().includes(query) ||
+              note.text.replace(/\s/g, "").toLowerCase().includes(query)
+            );
+          })
+          .sort((a, b) =>
+            descending
+              ? a.text.toLowerCase() < b.text.toLowerCase()
+                ? 1
+                : -1
+              : a.text.toLowerCase() > b.text.toLowerCase()
+              ? 1
+              : -1
+          )
+      : [...initialNotes].sort((a, b) =>
+          descending
+            ? a.text.toLowerCase() < b.text.toLowerCase()
+              ? 1
+              : -1
+            : a.text.toLowerCase() > b.text.toLowerCase()
+            ? 1
+            : -1
+        );
     setDescending(!descending);
     setSortedNotes(sorted);
+    setRenderedNotes(sorted);
   };
 
   const onSearchChange = (e) => {
@@ -45,6 +58,7 @@ export default function Home() {
       );
     });
     setFilteresNotes(filtered);
+    setRenderedNotes(filtered);
   };
 
   useEffect(() => {
@@ -96,14 +110,23 @@ export default function Home() {
         </div>
 
         <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
-          {renderedNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              text={note.text}
-              title={note.title}
-              id={note.id}
-            />
-          ))}
+          {!sortedNotes && !filteredNotes
+            ? initialNotes.map((note) => (
+                <NoteCard
+                  key={note.id}
+                  text={note.text}
+                  title={note.title}
+                  id={note.id}
+                />
+              ))
+            : renderedNotes.map((note) => (
+                <NoteCard
+                  key={note.id}
+                  text={note.text}
+                  title={note.title}
+                  id={note.id}
+                />
+              ))}
         </ul>
       </div>
     </section>
