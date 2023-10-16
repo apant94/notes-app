@@ -9,7 +9,7 @@ export default function NoteCard({ id, title, text }) {
   const onDeleteClick = () => {
     deleteNote(id);
     dispatch(removeNote(id));
-  }
+  };
 
   return (
     <li className="col list-unstyled">
@@ -33,7 +33,7 @@ export default function NoteCard({ id, title, text }) {
               </Link>
               <button
                 type="button"
-                className="btn d-flex align-items-center"
+                className={`btn d-flex align-items-center ${styles.icon}`}
                 onClick={onDeleteClick}
               >
                 <svg

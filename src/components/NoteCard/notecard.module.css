@@ -5,3 +5,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.icon:hover {
+  opacity: .7;
+}
