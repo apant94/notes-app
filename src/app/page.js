@@ -4,22 +4,31 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
 import NoteCard from "@/components/NoteCard/NoteCard";
-import { selectNotes, setNotes } from "@/store/notesSlice";
+import { selectNotes } from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
 export default function Home() {
   const initialNotes = useSelector(selectNotes);
   const [sortedNotes, setSortedNotes] = useState();
+  const [filteredNotes, setFilteresNotes] = useState();
   const [descending, setDescending] = useState(false);
+  const [query, setQuery] = useState("");
   const dispatch = useDispatch();
 
+  const renderedNotes = sortedNotes
+    ? filteredNotes
+      ? filteredNotes
+      : sortedNotes
+    : filteredNotes
+    ? filteredNotes
+    : initialNotes;
   const onSortClick = () => {
     const sorted = [...initialNotes].sort((a, b) =>
       descending
-        ? a.text.toLowerCase() > b.text.toLowerCase()
+        ? a.text.toLowerCase() < b.text.toLowerCase()
           ? 1
           : -1
-        : a.text.toLowerCase() < b.text.toLowerCase()
+        : a.text.toLowerCase() > b.text.toLowerCase()
         ? 1
         : -1
     );
@@ -27,7 +36,16 @@ export default function Home() {
     setSortedNotes(sorted);
   };
 
-  const onSearchChange = () => {};
+  const onSearchChange = (e) => {
+    setQuery(e.target.value);
+    const filtered = [...initialNotes].filter((note) => {
+      return (
+        note.title.replace(/\s/g, "").toLowerCase().includes(e.target.value) ||
+        note.text.replace(/\s/g, "").toLowerCase().includes(e.target.value)
+      );
+    });
+    setFilteresNotes(filtered);
+  };
 
   useEffect(() => {
     dispatch(fetchNotes());
@@ -71,21 +89,14 @@ export default function Home() {
           <input
             type="text"
             className="form-control"
-            id="query"
+            value={query}
             placeholder="Поиск"
-            onChange={onSearchChange}
+            onInput={onSearchChange}
           />
         </div>
 
         <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
-          {!sortedNotes ? initialNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              text={note.text}
-              title={note.title}
-              id={note.id}
-            />
-          )) : sortedNotes.map((note) => (
+          {renderedNotes.map((note) => (
             <NoteCard
               key={note.id}
               text={note.text}
