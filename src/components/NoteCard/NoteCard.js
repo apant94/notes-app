@@ -1,3 +1,4 @@
+'use client';
 import styles from "./notecard.module.css";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
