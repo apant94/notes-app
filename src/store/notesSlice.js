@@ -5,6 +5,7 @@ const initialState = {
   notes: [],
   filteredNotes: [],
   selectedNote: [],
+  descending: false,
 };
 
 export const notesSlice = createSlice({
@@ -24,6 +25,9 @@ export const notesSlice = createSlice({
         state.filteredNotes = [...state.notes];
         state.filteredNotes = action.payload;
       }
+    },
+    setDescending: (state, action) => {
+      state.descending = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -56,11 +60,13 @@ export const notesSlice = createSlice({
 });
 
 // actions
-export const { setNote, setNotes, setFilteredNotes } = notesSlice.actions;
+export const { setNote, setNotes, setFilteredNotes, setDescending } = notesSlice.actions;
 
 // selectors
 export const selectNotes = (state) => state.notes.notes;
 export const selectedNote = (state) => state.notes.selectedNote;
 export const selectFilteredNotes = (state) => state.notes.filteredNotes;
+export const selectDescending = (state) => state.notes.descending;
+
 
 export default notesSlice.reducer;

@@ -7,14 +7,17 @@ import NoteList from "@/components/NotesList/NotesList";
 import {
   selectNotes,
   selectFilteredNotes,
+  selectDescending,
   setFilteredNotes,
+  setDescending,
 } from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
 export default function Home({}) {
   const initialNotes = useSelector(selectNotes); // изначальные заметки из стора
   const filteredNotes = useSelector(selectFilteredNotes); // массив отффильтрованных заметок
-  const [descending, setDescending] = useState(false); // стейт направления сортировки
+  const descending = useSelector(selectDescending); /// стейт направления сортировки
+
   const [query, setQuery] = useState(""); // стейт данных поиска
   const dispatch = useDispatch();
   const onSortClick = () => {
@@ -44,7 +47,7 @@ export default function Home({}) {
             ? 1
             : -1
         );
-    setDescending(!descending);
+    dispatch(setDescending(!descending));
     dispatch(setFilteredNotes(sorted));
   };
 
