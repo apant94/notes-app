@@ -1,6 +1,6 @@
 # notes-app
 
-Приложение заметок
+Приложение заметок, выполненное на Next 13 и Redux. API реализовано с поощью MockApi.
 
 ## Ссылки:
 
@@ -15,18 +15,18 @@
 
 ## Планы по улучшению:
 
-- Наладить взаимодействие запросов api на редактирование и удаление заметок с asyncThunk (Redux)
+- Наладить взаимодействие запросов api на редактирование заметок с asyncThunk (Redux)
 - Настроить более наглядную валидацию форм
 - Добавить и визуализировать loading состояние при статусе запросов - pending 
 - Реализовать авторизацию
-- Использовать getStaticProps/getServerSideProps
+- Наладить SSR в связке с client side components, требуемые для работы Redux
 
 ## Технологии:
 
 - HTML5
 - CCS3, CSS Modules
-- NEXT.js
-- Bootstrap
+- NEXT 13
+- Bootstrap 5
 - Axios
 - MockAPI
 - Redux, Redux Toolkit
