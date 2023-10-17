@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchNotes, fetchNoteById } from "./thunk";
+import { fetchNotes, fetchNoteById, deleteNoteById } from "./thunk";
 
 const initialState = {
   notes: [],
+  filteredNotes: [],
   selectedNote: [],
 };
 
@@ -13,15 +14,23 @@ export const notesSlice = createSlice({
     setNote: (state, action) => {
       state.selectedNote.text = action.payload;
     },
-    removeNote: (state, action) => {
-      const id = action.payload;
-      const notes = state.notes.filter((note) => note.id !== id);
-      state.notes = notes;
+    setNotes: (state, action) => {
+      state.notes = action.payload;
+    },
+    setFilteredNotes: (state, action) => {
+      if (action.payload.length < state.filteredNotes.length) {
+        state.filteredNotes = action.payload;
+      } else {
+        state.filteredNotes = [...state.notes];
+        state.filteredNotes = action.payload;
+      }
+      console.log("slice state.filteredNotes", state.filteredNotes);
     },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchNotes.fulfilled, (state, action) => {
       state.notes = action.payload;
+      state.filteredNotes = action.payload;
     });
     builder.addCase(fetchNotes.rejected, (state, action) => {
       console.log(action.error);
@@ -34,14 +43,25 @@ export const notesSlice = createSlice({
       console.log(action.error);
       return action.error;
     });
+    builder.addCase(deleteNoteById.fulfilled, (state, action) => {
+      const id = action.payload.id;
+      const notes = state.filteredNotes.filter((note) => note.id !== id);
+      state.notes = notes;
+      state.filteredNotes = notes;
+    });
+    builder.addCase(deleteNoteById.rejected, (state, action) => {
+      console.log(action.error);
+      return action.error;
+    });
   },
 });
 
 // actions
-export const { setNote, removeNote } = notesSlice.actions;
+export const { setNote, setNotes, setFilteredNotes } = notesSlice.actions;
 
 // selectors
 export const selectNotes = (state) => state.notes.notes;
 export const selectedNote = (state) => state.notes.selectedNote;
+export const selectFilteredNotes = (state) => state.notes.filteredNotes;
 
 export default notesSlice.reducer;
