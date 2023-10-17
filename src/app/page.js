@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
 import NoteList from "@/components/NotesList/NotesList";
@@ -8,8 +8,10 @@ import {
   selectNotes,
   selectFilteredNotes,
   selectDescending,
+  selectSearchQuery,
   setFilteredNotes,
   setDescending,
+  setSearchQuery,
 } from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
@@ -17,8 +19,8 @@ export default function Home({}) {
   const initialNotes = useSelector(selectNotes); // изначальные заметки из стора
   const filteredNotes = useSelector(selectFilteredNotes); // массив отффильтрованных заметок
   const descending = useSelector(selectDescending); /// стейт направления сортировки
+  const query = useSelector(selectSearchQuery); /// стейт направления сортировки
 
-  const [query, setQuery] = useState(""); // стейт данных поиска
   const dispatch = useDispatch();
   const onSortClick = () => {
     const sorted = filteredNotes
@@ -51,11 +53,6 @@ export default function Home({}) {
     dispatch(setFilteredNotes(sorted));
   };
 
-  const onSearchChange = (e) => {
-    setQuery(e.target.value);
-    filterInputs(e.target.value);
-  };
-
   const filterInputs = (data) => {
     const filtered = [...initialNotes].filter((note) => {
       return (
@@ -67,7 +64,7 @@ export default function Home({}) {
   };
 
   useEffect(() => {
-    dispatch(fetchNotes());
+    void dispatch(fetchNotes());
   }, [dispatch]);
 
   return (
@@ -110,7 +107,7 @@ export default function Home({}) {
             className="form-control"
             value={query}
             placeholder="Поиск"
-            onInput={onSearchChange}
+            onChange={(e) => dispatch(setSearchQuery(e.target.value), filterInputs(e.target.value))}
           />
         </div>
         <NoteList filteredNotes={filteredNotes} />
