@@ -3,22 +3,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
-import NoteCard from "@/components/NoteCard/NoteCard";
-import { selectNotes } from "@/store/notesSlice";
+// import NoteCard from "@/components/NoteCard/NoteCard";
+import NoteList from "@/components/NotesList/NotesList";
+import {
+  selectNotes,
+  selectFilteredNotes,
+  setFilteredNotes,
+} from "@/store/notesSlice";
 import { fetchNotes } from "@/store/thunk";
 
-export default function Home() {
-  const initialNotes = useSelector(selectNotes); // изначальные заметки
-  const [sortedNotes, setSortedNotes] = useState(); // массив отсортированных заметок
-  const [filteredNotes, setFilteresNotes] = useState(); // массив отфильтрованных заметок
-  const [renderedNotes, setRenderedNotes] = useState([]); // массив заметок для отрисовки после сортировки и фильтрации
+export default function Home({}) {
+  const initialNotes = useSelector(selectNotes); // изначальные заметки из стора
+  const filteredNotes = useSelector(selectFilteredNotes); // массив отффильтрованных заметок
   const [descending, setDescending] = useState(false); // стейт направления сортировки
   const [query, setQuery] = useState(""); // стейт данных поиска
   const dispatch = useDispatch();
-
   const onSortClick = () => {
-    const sorted = query
-      ? [...initialNotes]
+    const sorted = filteredNotes
+      ? [...filteredNotes]
           .filter((note) => {
             return (
               note.title.replace(/\s/g, "").toLowerCase().includes(query) ||
@@ -44,20 +46,22 @@ export default function Home() {
             : -1
         );
     setDescending(!descending);
-    setSortedNotes(sorted);
-    setRenderedNotes(sorted);
+    dispatch(setFilteredNotes(sorted));
   };
 
   const onSearchChange = (e) => {
     setQuery(e.target.value);
+    filterInputs(e.target.value);
+  };
+
+  const filterInputs = (data) => {
     const filtered = [...initialNotes].filter((note) => {
       return (
-        note.title.replace(/\s/g, "").toLowerCase().includes(e.target.value) ||
-        note.text.replace(/\s/g, "").toLowerCase().includes(e.target.value)
+        note.title.replace(/\s/g, "").toLowerCase().includes(data) ||
+        note.text.replace(/\s/g, "").toLowerCase().includes(data)
       );
     });
-    setFilteresNotes(filtered);
-    setRenderedNotes(filtered);
+    dispatch(setFilteredNotes(filtered));
   };
 
   useEffect(() => {
@@ -107,26 +111,7 @@ export default function Home() {
             onInput={onSearchChange}
           />
         </div>
-
-        <ul className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 p-0">
-          {!sortedNotes && !filteredNotes
-            ? initialNotes.map((note) => (
-                <NoteCard
-                  key={note.id}
-                  text={note.text}
-                  title={note.title}
-                  id={note.id}
-                />
-              ))
-            : renderedNotes.map((note) => (
-                <NoteCard
-                  key={note.id}
-                  text={note.text}
-                  title={note.title}
-                  id={note.id}
-                />
-              ))}
-        </ul>
+        <NoteList filteredNotes={filteredNotes} />
       </div>
     </section>
   );
