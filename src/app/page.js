@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./page.module.css";
-// import NoteCard from "@/components/NoteCard/NoteCard";
 import NoteList from "@/components/NotesList/NotesList";
 import {
   selectNotes,

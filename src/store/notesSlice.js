@@ -24,7 +24,6 @@ export const notesSlice = createSlice({
         state.filteredNotes = [...state.notes];
         state.filteredNotes = action.payload;
       }
-      console.log("slice state.filteredNotes", state.filteredNotes);
     },
   },
   extraReducers: (builder) => {
