@@ -73,6 +73,4 @@ export const selectFilteredNotes = (state) => state.notes.filteredNotes;
 export const selectDescending = (state) => state.notes.descending;
 export const selectSearchQuery = (state) => state.notes.searchQuery;
 
-
-
 export default notesSlice.reducer;
