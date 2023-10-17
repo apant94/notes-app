@@ -18,8 +18,8 @@ import { fetchNotes } from "@/store/thunk";
 export default function Home({}) {
   const initialNotes = useSelector(selectNotes); // изначальные заметки из стора
   const filteredNotes = useSelector(selectFilteredNotes); // массив отффильтрованных заметок
-  const descending = useSelector(selectDescending); /// стейт направления сортировки
-  const query = useSelector(selectSearchQuery); /// стейт направления сортировки
+  const descending = useSelector(selectDescending); // стейт направления сортировки
+  const query = useSelector(selectSearchQuery); // стейт направления сортировки
 
   const dispatch = useDispatch();
   const onSortClick = () => {
