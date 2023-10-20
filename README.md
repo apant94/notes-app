@@ -1,6 +1,7 @@
 # notes-app
 
 Приложение заметок, выполненное на Next 13 и Redux. API реализовано с поощью MockApi. Заметки рендерятся SSR.
+<img width="1669" alt="Демо скриншот" src="https://github.com/apant94/notes-app/assets/103651974/171dc692-f621-47ec-99c3-c56fb3c48fb7">
 
 ## Ссылки:
 
